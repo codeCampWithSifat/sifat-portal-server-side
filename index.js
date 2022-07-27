@@ -20,6 +20,7 @@ async function run () {
         // console.log('database connected successfully');
         const database = client.db("sifat_doctor_portal");
         const appoinmentsCollection = database.collection("user_appoinments");
+        const userCollections = database.collection('unique_user');
 
         // appoinments api
         app.post('/appoinments', async(req,res) => {
@@ -33,11 +34,30 @@ async function run () {
             const email = req.query.email ;
             const date = new Date(req.query.date).toLocaleDateString();
             const query = {email : email, date: date};
-            console.log(query)
+            // console.log(query)
             const cursor = appoinmentsCollection.find(query);
             const appoinments = await cursor.toArray();
             res.send(appoinments);
+        });
+
+        // get a single unique user information
+        app.post('/users', async(req,res) => {
+            const user = req.body ;
+            const result = await userCollections.insertOne(user);
+            console.log(result);
+            res.json(result);
+        });
+
+        // not to update for google authentication
+        app.put('/users', async(req,res) => {
+            const user = req.body ;
+            const filter = {email : user.email};
+            const options = { upsert: true };
+            const updateDoc = {$set : user};
+            const result = await userCollections.updateOne(filter, updateDoc, options);
+            res.json(result);
         })
+
     }
     finally {
         // await client.close();
