@@ -3,18 +3,18 @@ const app = express();
 const cors = require('cors')
 const { MongoClient, ServerApiVersion } = require('mongodb');
 require('dotenv').config()
-const  admin = require("firebase-admin");
+// const  admin = require("firebase-admin");
 const port = process.env.PORT || 5000 ;
 
 
 // firebase admin setup
 // fir-again-2-firebase-adminsdk.json
 
-const serviceAccount = require("./fir-again-2-firebase-adminsdk-ds86y-4c31bca9c2.json");
+// const serviceAccount = require("./fir-again-2-firebase-adminsdk-ds86y-4c31bca9c2.json");
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-});
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount)
+// });
 
 
 // use the middleware
